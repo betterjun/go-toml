@@ -126,3 +126,41 @@ func TestTomlFromMap(t *testing.T) {
 		t.Fatal("hello should be 42, not", tree.Get("hello"))
 	}
 }
+
+func TestTomlGetTypes(t *testing.T) {
+	tree, _ := Load(`
+		[test]
+		str = "value"
+		int = 1
+		int8 = 8
+		int16 = 16
+		int32 = 32
+		int64 = 64
+		float32 = 32.01
+		float64 = 64.03		
+	`)
+
+	if tree.Get("") != tree {
+		t.Errorf("Get should return the tree itself when given an empty path")
+	}
+
+	strValue := tree.GetString("test.str")
+	if strValue != "value" {
+		t.Errorf("Get should return the value: %s", strValue)
+	}
+
+	i64 := tree.GetInt64("test.int64")
+	if i64 != 64 {
+		t.Errorf("Get should return the value: %v", i64)
+	}
+
+	ui64 := tree.GetUint64("test.int64")
+	if ui64 != 64 {
+		t.Errorf("Get should return the value: %v", ui64)
+	}
+
+	f64 := tree.GetFloat64("test.float32")
+	if f64 != 32.01 {
+		t.Errorf("Get should return the value: %v", f64)
+	}
+}

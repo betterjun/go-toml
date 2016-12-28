@@ -280,3 +280,48 @@ func LoadFile(path string) (tree *TomlTree, err error) {
 	defer file.Close()
 	return LoadReader(file)
 }
+
+// Getters with type conversion.
+func (t *TomlTree) GetUint64(key string, def ...uint64) (ret uint64) {
+	val := t.Get(key)
+	if val == nil {
+		if len(def) == 1 {
+			return def[0]
+		}
+		return ret
+	}
+	return uint64(val.(int64))
+}
+
+func (t *TomlTree) GetInt64(key string, def ...int64) (ret int64) {
+	val := t.Get(key)
+	if val == nil {
+		if len(def) == 1 {
+			return def[0]
+		}
+		return ret
+	}
+	return val.(int64)
+}
+
+func (t *TomlTree) GetFloat64(key string, def ...float64) (ret float64) {
+	val := t.Get(key)
+	if val == nil {
+		if len(def) == 1 {
+			return def[0]
+		}
+		return ret
+	}
+	return val.(float64)
+}
+
+func (t *TomlTree) GetString(key string, def ...string) (ret string) {
+	val := t.Get(key)
+	if val == nil {
+		if len(def) == 1 {
+			return def[0]
+		}
+		return ret
+	}
+	return val.(string)
+}
