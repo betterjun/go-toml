@@ -1,4 +1,4 @@
-module github.com/betterjun/go-toml
+module github.com/Hyetpang/go-toml
 
 go 1.13
 
